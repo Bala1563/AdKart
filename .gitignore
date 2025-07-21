@@ -1,0 +1,31 @@
+# ---- Angular ----
+/FrontEnd/adkart-frontend/node_modules/
+/FrontEnd/adkart-frontend/dist/
+/FrontEnd/adkart-frontend/.angular/
+/FrontEnd/adkart-frontend/.env
+/FrontEnd/adkart-frontend/package-lock.json
+
+# ---- .NET ----
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ---- Visual Studio Code ----
+.vscode/
+
+# ---- OS / System Files ----
+.DS_Store
+Thumbs.db
+
+# ---- Logs & Temp ----
+*.log
+*.tmp
+*.temp
+
+# ---- Others ----
+.env
+*.swp
