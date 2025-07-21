@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartLibrary", "AdKartLibrary\AdKartLibrary.csproj", "{D91EAD2A-E866-4811-BC6B-2176792A7195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartWebApi", "AdKartWebApi\AdKartWebApi.csproj", "{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C737666C-9DF9-4E2B-BB83-7345B0768ECA}
+	EndGlobalSection
+EndGlobal
