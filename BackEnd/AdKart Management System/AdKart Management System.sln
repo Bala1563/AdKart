@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartLibrary", "AdKartLibrary\AdKartLibrary.csproj", "{D91EAD2A-E866-4811-BC6B-2176792A7195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdKartWebApi", "AdKartWebApi\AdKartWebApi.csproj", "{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartWebApi", "AdKartWebApi\AdKartWebApi.csproj", "{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartShared", "AdKartShared\AdKartShared.csproj", "{E77AEF66-62EE-4268-B0DB-BBF086928A3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartDomain", "AdKartDomain\AdKartDomain.csproj", "{D52D763D-B621-49DA-B5E5-9649362BB8D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartApplication", "AdKartApplication\AdKartApplication.csproj", "{0FCAF045-D175-4C8C-B855-734403FCBD5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdKartInfrastructure", "AdKartInfrastructure\AdKartInfrastructure.csproj", "{BB7D99C1-88CD-4AF0-9986-DEC9C44E1A5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D91EAD2A-E866-4811-BC6B-2176792A7195}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD8F2ED0-C853-4451-8FF6-BA34E72983C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E77AEF66-62EE-4268-B0DB-BBF086928A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77AEF66-62EE-4268-B0DB-BBF086928A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77AEF66-62EE-4268-B0DB-BBF086928A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77AEF66-62EE-4268-B0DB-BBF086928A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D52D763D-B621-49DA-B5E5-9649362BB8D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52D763D-B621-49DA-B5E5-9649362BB8D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52D763D-B621-49DA-B5E5-9649362BB8D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D52D763D-B621-49DA-B5E5-9649362BB8D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FCAF045-D175-4C8C-B855-734403FCBD5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FCAF045-D175-4C8C-B855-734403FCBD5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FCAF045-D175-4C8C-B855-734403FCBD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FCAF045-D175-4C8C-B855-734403FCBD5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB7D99C1-88CD-4AF0-9986-DEC9C44E1A5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB7D99C1-88CD-4AF0-9986-DEC9C44E1A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB7D99C1-88CD-4AF0-9986-DEC9C44E1A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB7D99C1-88CD-4AF0-9986-DEC9C44E1A5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
