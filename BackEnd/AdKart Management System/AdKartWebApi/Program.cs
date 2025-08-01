@@ -1,3 +1,5 @@
+using AdKartInfrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdKartWebApi
 {
@@ -10,6 +12,9 @@ namespace AdKartWebApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<AdKartDbContext>(options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
