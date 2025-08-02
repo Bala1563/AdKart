@@ -13,7 +13,7 @@
 *.suo
 *.userosscache
 *.sln.docstates
-!Migrations/*.cs
+**/Migrations/*
 
 # ---- Visual Studio Code ----
 .vscode/
