@@ -12,6 +12,8 @@ namespace AdKartInfrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> Roles { get; set; }
         public DbSet<Town> Towns { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Shop> Shops { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,16 +46,16 @@ namespace AdKartInfrastructure
 
             // CreatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<UserRole>()
-                .HasOne(t => t.CreatedByUser)
+                .HasOne(r => r.CreatedByUser)
                 .WithMany()
-                .HasForeignKey(t => t.CreatedBy)
+                .HasForeignKey(r => r.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<UserRole>()
-                .HasOne(t => t.UpdatedByUser)
+                .HasOne(r => r.UpdatedByUser)
                 .WithMany()
-                .HasForeignKey(t => t.UpdatedBy)
+                .HasForeignKey(r => r.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
@@ -75,6 +77,108 @@ namespace AdKartInfrastructure
                 .WithMany()
                 .HasForeignKey(t => t.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Category Table
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Category>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Category>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Shop Table
+           // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Shop>()
+                .HasOne(s => s.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(s => s.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Shop>()
+                .HasOne(s => s.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(s => s.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Shop>()
+                .HasOne(s => s.Category)
+                .WithMany()
+                .HasForeignKey(s => s.CategoryId) 
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Shop>()
+                .HasOne(s => s.Owner)
+                .WithMany()
+                .HasForeignKey(s => s.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Product Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // This help in deleting all products under a shop, when a shop got deleted
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Shop)
+                .WithMany()
+                .HasForeignKey(p => p.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.MeasuringType)
+                .HasConversion<string>();
+            #endregion
+
+            #region Cart Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // This help in deleting all products under a shop, when a shop got deleted
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.Shop)
+                .WithMany()
+                .HasForeignKey(c => c.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Cart>()
+                .Property(c => c.Status)
+                .HasConversion<string>();
             #endregion
 
             //// Seed Data For Users

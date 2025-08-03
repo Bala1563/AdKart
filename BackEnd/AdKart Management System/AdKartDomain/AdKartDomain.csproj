@@ -5,4 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Entities\s0wfn3eq.ml2~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdKartShared\AdKartShared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,6 @@ namespace AdKartDomain.Entities
     [Table("[User]")]
     public class User : BaseEntity
     {
-
         [Required, MaxLength(25)]
         public string FirstName { get; set; }
 
