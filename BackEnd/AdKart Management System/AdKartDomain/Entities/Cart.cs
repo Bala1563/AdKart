@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdKartDomain.Entities
 {
-    [Table("Cart")]
     public class Cart : BaseEntity
     {
         [Required]

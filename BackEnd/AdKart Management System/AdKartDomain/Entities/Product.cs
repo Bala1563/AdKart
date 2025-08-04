@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdKartDomain.Entities
 {
-    [Table("Product")]
     public class Product : BaseEntity
     {
         [Required, MaxLength(50)]
@@ -19,7 +18,7 @@ namespace AdKartDomain.Entities
         [ForeignKey(nameof(ShopId))]
         public Shop Shop { get; set; }
 
-        public Decimal Price { get; set; }
+        public decimal Price { get; set; }
 
         [MaxLength(250)]
         public string Description { get; set; }

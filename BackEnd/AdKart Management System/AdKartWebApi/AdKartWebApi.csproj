@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdKartApplication\AdKartApplication.csproj" />
     <ProjectReference Include="..\AdKartDomain\AdKartDomain.csproj" />
     <ProjectReference Include="..\AdKartInfrastructure\AdKartInfrastructure.csproj" />
   </ItemGroup>

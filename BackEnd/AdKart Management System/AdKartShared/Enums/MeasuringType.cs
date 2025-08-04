@@ -4,8 +4,8 @@
     {
         Grams = 1,
         KiloGrams = 2,
-        Liters = 3,
-        Milliliters = 4,
+        Litres = 3,
+        Millilitres = 4,
         Count = 5
     }
 }

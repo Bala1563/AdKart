@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdKartDomain.Entities
 {
-    [Table("Category")]
     public class Category : BaseEntity
     {
         [Required, MaxLength(50)]

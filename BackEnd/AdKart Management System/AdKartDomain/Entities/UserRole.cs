@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdKartDomain.Entities
 {
-    [Table("UserRole")]
     public class UserRole : BaseEntity
     {
         [Required]
