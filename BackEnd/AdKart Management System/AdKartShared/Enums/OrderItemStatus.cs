@@ -1,6 +1,6 @@
 ﻿namespace AdKartShared.Enums
 {
-    public enum CartItemStatus
+    public enum OrderItemStatus
     {
         Pending = 1,
         Accepted = 2,

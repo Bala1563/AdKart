@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace AdKartInfrastructure.Migrations
 {
     /// <inheritdoc />
@@ -12,6 +14,54 @@ namespace AdKartInfrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Advertisements",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AdvertiserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AdvertiserPhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ContentUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoinsPerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AgentName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Advertisements", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdWatches",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RewardGiven = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdWatches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdWatches_Advertisements_AdId",
+                        column: x => x.AdId,
+                        principalTable: "Advertisements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CartItems",
                 columns: table => new
                 {
@@ -20,7 +70,6 @@ namespace AdKartInfrastructure.Migrations
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     NumberOfItems = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -70,11 +119,51 @@ namespace AdKartInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CoinsContainers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TownId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Coins = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoinsContainers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NumberOfItems = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoinsUsed = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -87,12 +176,6 @@ namespace AdKartInfrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,20 +317,92 @@ namespace AdKartInfrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TransferedTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransferedCoins = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    From = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    To = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "IsActive", "Role", "UpdatedBy", "UpdatedOn" },
-                values: new object[] { new Guid("bc993bc4-5eee-4cdc-bfe7-1736982fb9f5"), null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4179), true, "Admin", null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4193) });
+                values: new object[,]
+                {
+                    { new Guid("39d35f12-aefa-4ab1-890e-6193227f92c2"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7400), true, "Admin", null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7416) },
+                    { new Guid("52733066-94d5-404f-9afb-05915c8aa8ee"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7420), true, "Customer", null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7420) },
+                    { new Guid("90bbd9c8-87b2-4d8b-94fd-e87932b2fd2b"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7418), true, "ShopOwner", null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7418) }
+                });
 
             migrationBuilder.InsertData(
                 table: "Towns",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "IsActive", "Name", "UpdatedBy", "UpdatedOn" },
-                values: new object[] { new Guid("22d56514-060e-4c77-ac40-20b47633ecee"), null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4196), true, "Narasaraopet", null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4196) });
+                values: new object[] { new Guid("1891054f-2b78-4c99-b6c3-d896a1910465"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7422), true, "Narasaraopet", null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7423) });
+
+            migrationBuilder.InsertData(
+                table: "CoinsContainers",
+                columns: new[] { "Id", "Coins", "CreatedBy", "CreatedOn", "Discriminator", "IsActive", "TownId", "UpdatedBy", "UpdatedOn" },
+                values: new object[,]
+                {
+                    { new Guid("cb1e90cd-8b13-4cba-86bb-25630455da6e"), 0m, null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7714), "CoinsContainer", true, new Guid("1891054f-2b78-4c99-b6c3-d896a1910465"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7715) },
+                    { new Guid("fb192da4-929c-4553-b0d3-426190852cb3"), 0m, null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7740), "TransientCoinsContainer", true, new Guid("1891054f-2b78-4c99-b6c3-d896a1910465"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7741) }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "Coins", "CreatedBy", "CreatedOn", "Email", "FirstName", "IsActive", "LastName", "PasswordHash", "PhoneNumber", "ProfilePic", "TownId", "UpdatedBy", "UpdatedOn", "UserRoleId" },
-                values: new object[] { new Guid("26abfc72-3102-4644-b79b-b046c674c737"), "Barampet", 0, null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4508), "ibvramasai1563@gmail.com", "Bala Venkata Rama Sai", true, "Immadisetty", "1234567890", "7382755402", "Pic1", new Guid("22d56514-060e-4c77-ac40-20b47633ecee"), null, new DateTime(2025, 8, 4, 20, 7, 43, 615, DateTimeKind.Local).AddTicks(4509), new Guid("bc993bc4-5eee-4cdc-bfe7-1736982fb9f5") });
+                values: new object[] { new Guid("f0603044-0352-479d-868f-1b09e7ad5a31"), "Barampet", 0, null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7767), "ibvramasai1563@gmail.com", "Bala Venkata Rama Sai", true, "Immadisetty", "1234567890", "7382755402", "Pic1", new Guid("1891054f-2b78-4c99-b6c3-d896a1910465"), null, new DateTime(2025, 8, 5, 0, 55, 29, 249, DateTimeKind.Local).AddTicks(7768), new Guid("39d35f12-aefa-4ab1-890e-6193227f92c2") });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisements_CreatedBy",
+                table: "Advertisements",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisements_UpdatedBy",
+                table: "Advertisements",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdWatches_AdId",
+                table: "AdWatches",
+                column: "AdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdWatches_CreatedBy",
+                table: "AdWatches",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdWatches_UpdatedBy",
+                table: "AdWatches",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_CartId",
@@ -301,10 +456,39 @@ namespace AdKartInfrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CartId",
-                table: "Orders",
-                column: "CartId",
-                unique: true);
+                name: "IX_CoinsContainers_CreatedBy",
+                table: "CoinsContainers",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoinsContainers_TownId",
+                table: "CoinsContainers",
+                column: "TownId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoinsContainers_UpdatedBy",
+                table: "CoinsContainers",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_CreatedBy",
+                table: "OrderItems",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_ProductId",
+                table: "OrderItems",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_UpdatedBy",
+                table: "OrderItems",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CreatedBy",
@@ -384,6 +568,16 @@ namespace AdKartInfrastructure.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_CreatedBy",
+                table: "Transactions",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_UpdatedBy",
+                table: "Transactions",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_CreatedBy",
                 table: "Users",
                 column: "CreatedBy");
@@ -410,12 +604,44 @@ namespace AdKartInfrastructure.Migrations
                 column: "UserRoleId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Advertisements_Users_CreatedBy",
+                table: "Advertisements",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Advertisements_Users_UpdatedBy",
+                table: "Advertisements",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AdWatches_Users_CreatedBy",
+                table: "AdWatches",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AdWatches_Users_UpdatedBy",
+                table: "AdWatches",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_CartItems_Carts_CartId",
                 table: "CartItems",
                 column: "CartId",
                 principalTable: "Carts",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_CartItems_Products_ProductId",
@@ -423,7 +649,7 @@ namespace AdKartInfrastructure.Migrations
                 column: "ProductId",
                 principalTable: "Products",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_CartItems_Users_CreatedBy",
@@ -447,7 +673,7 @@ namespace AdKartInfrastructure.Migrations
                 column: "ShopId",
                 principalTable: "Shops",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Carts_Users_CreatedBy",
@@ -455,7 +681,7 @@ namespace AdKartInfrastructure.Migrations
                 column: "CreatedBy",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Carts_Users_UpdatedBy",
@@ -476,6 +702,62 @@ namespace AdKartInfrastructure.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Categories_Users_UpdatedBy",
                 table: "Categories",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CoinsContainers_Towns_TownId",
+                table: "CoinsContainers",
+                column: "TownId",
+                principalTable: "Towns",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CoinsContainers_Users_CreatedBy",
+                table: "CoinsContainers",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CoinsContainers_Users_UpdatedBy",
+                table: "CoinsContainers",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderItems_Orders_OrderId",
+                table: "OrderItems",
+                column: "OrderId",
+                principalTable: "Orders",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderItems_Products_ProductId",
+                table: "OrderItems",
+                column: "ProductId",
+                principalTable: "Products",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderItems_Users_CreatedBy",
+                table: "OrderItems",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderItems_Users_UpdatedBy",
+                table: "OrderItems",
                 column: "UpdatedBy",
                 principalTable: "Users",
                 principalColumn: "Id",
@@ -503,7 +785,7 @@ namespace AdKartInfrastructure.Migrations
                 column: "ShopId",
                 principalTable: "Shops",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Products_Users_CreatedBy",
@@ -598,16 +880,31 @@ namespace AdKartInfrastructure.Migrations
                 table: "Towns");
 
             migrationBuilder.DropTable(
+                name: "AdWatches");
+
+            migrationBuilder.DropTable(
                 name: "CartItems");
+
+            migrationBuilder.DropTable(
+                name: "CoinsContainers");
+
+            migrationBuilder.DropTable(
+                name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "Advertisements");
+
+            migrationBuilder.DropTable(
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Shops");

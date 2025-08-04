@@ -18,6 +18,12 @@ namespace AdKartInfrastructure
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<CoinsContainer> CoinsContainers { get; set; }
+        public DbSet<TransientCoinsContainer> TransientCoinsContainers { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<AdWatch> AdWatches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -118,12 +124,14 @@ namespace AdKartInfrastructure
                 .HasForeignKey(s => s.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Prevents deletion of a Category while it still has related Shops.
             modelBuilder.Entity<Shop>()
                 .HasOne(s => s.Category)
                 .WithMany()
                 .HasForeignKey(s => s.CategoryId) 
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Prevents deletion of a User (Owner) while it still has related Shops.
             modelBuilder.Entity<Shop>()
                 .HasOne(s => s.Owner)
                 .WithMany()
@@ -146,12 +154,12 @@ namespace AdKartInfrastructure
                 .HasForeignKey(p => p.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // This help in deleting all products under a shop, when a shop got deleted
+            // This deletes all products under a shop when the shop is deleted.
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Shop)
                 .WithMany()
                 .HasForeignKey(p => p.ShopId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.MeasuringType)
@@ -164,7 +172,7 @@ namespace AdKartInfrastructure
                 .HasOne(c => c.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(c => c.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Cart>()
@@ -173,12 +181,12 @@ namespace AdKartInfrastructure
                 .HasForeignKey(c => c.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // This help in deleting all carts under a shop, when a shop got deleted
+            // Deletes all carts for a shop when the shop is deleted.
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.Shop)
                 .WithMany()
                 .HasForeignKey(c => c.ShopId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Cart>()
                 .Property(c => c.Status)
@@ -205,18 +213,14 @@ namespace AdKartInfrastructure
                 .HasOne(c => c.Cart)
                 .WithMany()
                 .HasForeignKey(c => c.CartId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // This help in deleting all CartItems related to Product, when a Product got deleted
+            // All CartItems related to a Product should be deleted before the Product is deleted.
             modelBuilder.Entity<CartItem>()
                 .HasOne(c => c.Product)
                 .WithMany()
                 .HasForeignKey(c => c.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CartItem>()
-                .Property(c => c.Status)
-                .HasConversion<string>();
+                .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
             #region Order Table
@@ -234,23 +238,161 @@ namespace AdKartInfrastructure
                 .HasForeignKey(o => o.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // This help in deleting Order created by a Cart, when a Cart got deleted
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Cart)
-                .WithOne()
-                .HasForeignKey<Order>(o => o.CartId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Order>()
                 .Property(o => o.Status)
                 .HasConversion<string>();
             #endregion
 
-            //// Seed Data For Users
+            #region OrderItem Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(o => o.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(o => o.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(o => o.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(o => o.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // This help in deleting all OrderItems under a Order, when a Order got deleted.
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(o => o.Order)
+                .WithMany()
+                .HasForeignKey(o => o.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // All OrderItems related to a Product should be deleted before the Product is deleted.
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(o => o.Product)
+                .WithMany()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(o => o.Status)
+                .HasConversion<string>();
+            #endregion
+
+            #region CoinsContainer Table
+            modelBuilder.Entity<CoinsContainer>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CoinsContainer>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region TransientCoinsContainer Table
+            modelBuilder.Entity<TransientCoinsContainer>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TransientCoinsContainer>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Transaction Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(t => t.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(t => t.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.Type)
+                .HasConversion<string>();
+            
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.From)
+                .HasConversion<string>();
+            
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.To)
+                .HasConversion<string>();
+            #endregion
+
+            #region Advertisement Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(a => a.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(a => a.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region AdWatch Table
+            // CreatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<AdWatch>()
+                .HasOne(a => a.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<AdWatch>()
+                .HasOne(a => a.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // UpdatedBy relationship (prevent cascade delete)
+            modelBuilder.Entity<AdWatch>()
+                .HasOne(a => a.Advertisement)
+                .WithMany()
+                .HasForeignKey(a => a.AdId)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Seed Data
             UserRole admin = new UserRole
             {
                 Id = Guid.NewGuid(),
                 Role = "Admin",
+                CreatedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now
+            };
+
+            UserRole shopOwner = new UserRole
+            {
+                Id = Guid.NewGuid(),
+                Role = "ShopOwner",
+                CreatedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now
+            };
+
+            UserRole customer = new UserRole
+            {
+                Id = Guid.NewGuid(),
+                Role = "Customer",
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
             };
@@ -262,8 +404,30 @@ namespace AdKartInfrastructure
                 UpdatedOn = DateTime.Now,
                 Name = "Narasaraopet"
             };
-            modelBuilder.Entity<UserRole>().HasData(admin);
+            modelBuilder.Entity<UserRole>().HasData(admin, shopOwner, customer);
             modelBuilder.Entity<Town>().HasData(town);
+
+            modelBuilder.Entity<CoinsContainer>().HasData(
+                new CoinsContainer
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now,
+                    TownId = town.Id,
+                    Coins = 0
+                }
+            );
+
+            modelBuilder.Entity<TransientCoinsContainer>().HasData(
+                new TransientCoinsContainer
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now,
+                    TownId = town.Id,
+                    Coins = 0
+                }
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -283,6 +447,7 @@ namespace AdKartInfrastructure
                     UpdatedOn = DateTime.Now
                 }
             );
+            #endregion
         }
     }
 }
