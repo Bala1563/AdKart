@@ -9,21 +9,21 @@ namespace AdKartInfrastructure
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> Roles { get; set; }
-        public DbSet<Town> Towns { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<CoinsContainer> CoinsContainers { get; set; }
-        public DbSet<TransientCoinsContainer> TransientCoinsContainers { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Advertisement> Advertisements { get; set; }
-        public DbSet<AdWatch> AdWatches { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRole> Roles { get; set; }
+        public virtual DbSet<Town> Towns { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<CartItem> CartItems { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<CoinsContainer> CoinsContainers { get; set; }
+        public virtual DbSet<TransientCoinsContainer> TransientCoinsContainers { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<Advertisement> Advertisements { get; set; }
+        public virtual DbSet<AdWatch> AdWatches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
