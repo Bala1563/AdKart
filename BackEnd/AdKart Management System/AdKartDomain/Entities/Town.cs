@@ -7,5 +7,8 @@ namespace AdKartDomain.Entities
     {
         [Required]
         public string Name { get; set; }
+
+        // Navigation Property
+        public ICollection<User> Users { get; set; }
     }
 }

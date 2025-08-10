@@ -38,5 +38,14 @@ namespace AdKartDomain.Entities
 
         [Required]
         public int Coins { get; set; }
+
+        // Navigation properties
+        public ICollection<AdWatch> AdWatches { get; set; }
+
+        public ICollection<Cart> Carts { get; set; }
+        
+        public ICollection<Order> Orders { get; set; }
+        
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }

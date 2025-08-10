@@ -38,5 +38,12 @@ namespace AdKartDomain.Entities
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; }
+
+        // Navigation Property
+        public ICollection<Product> Products { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
+
+        public ICollection<Cart> Carts { get; set; }
     }
 }

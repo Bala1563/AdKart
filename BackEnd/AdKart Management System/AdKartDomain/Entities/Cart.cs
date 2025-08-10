@@ -14,5 +14,8 @@ namespace AdKartDomain.Entities
 
         [Required]
         public CartStatus Status { get; set; }
+
+        // Navigation Property
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

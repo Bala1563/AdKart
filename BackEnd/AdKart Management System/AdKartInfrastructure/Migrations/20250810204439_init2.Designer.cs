@@ -4,6 +4,7 @@ using AdKartInfrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdKartInfrastructure.Migrations
 {
     [DbContext(typeof(AdKartDbContext))]
-    partial class AdKartDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250810204439_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,9 @@ namespace AdKartInfrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AdId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AdvertisementId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -49,13 +55,20 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AdId");
 
+                    b.HasIndex("AdvertisementId");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AdWatches");
                 });
@@ -150,6 +163,9 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -157,6 +173,8 @@ namespace AdKartInfrastructure.Migrations
                     b.HasIndex("ShopId");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -168,6 +186,9 @@ namespace AdKartInfrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CartId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -200,6 +221,8 @@ namespace AdKartInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
+
+                    b.HasIndex("CartId1");
 
                     b.HasIndex("CreatedBy");
 
@@ -300,12 +323,12 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d619f161-f26a-4f82-945e-561e5a0ff65d"),
+                            Id = new Guid("5b5ae69b-e6f3-4c28-b3c3-48a82756fc5b"),
                             Coins = 0m,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2921),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3893),
                             IsActive = true,
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2921)
+                            TownId = new Guid("0ea4872a-302c-4da2-8a8a-b266f1088acf"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3897)
                         });
                 });
 
@@ -330,9 +353,6 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -343,13 +363,16 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("ShopId");
-
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -373,6 +396,9 @@ namespace AdKartInfrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrderId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
@@ -399,6 +425,8 @@ namespace AdKartInfrastructure.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderId1");
 
                     b.HasIndex("ProductId");
 
@@ -445,6 +473,9 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<Guid>("ShopId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ShopId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -456,6 +487,8 @@ namespace AdKartInfrastructure.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("ShopId");
+
+                    b.HasIndex("ShopId1");
 
                     b.HasIndex("UpdatedBy");
 
@@ -473,6 +506,9 @@ namespace AdKartInfrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -526,6 +562,8 @@ namespace AdKartInfrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("CategoryId1");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("OwnerId");
@@ -574,11 +612,11 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2559),
+                            Id = new Guid("0ea4872a-302c-4da2-8a8a-b266f1088acf"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3222),
                             IsActive = true,
                             Name = "Narasaraopet",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2560)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3223)
                         });
                 });
 
@@ -622,11 +660,16 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -711,10 +754,10 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3df30ed0-77d1-45c1-92b0-260644286da5"),
+                            Id = new Guid("500449f7-3765-4b4b-a117-acab8eb3db46"),
                             Address = "Barampet",
                             Coins = 0,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2994),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3975),
                             Email = "ibvramasai1563@gmail.com",
                             FirstName = "Bala Venkata Rama Sai",
                             IsActive = true,
@@ -722,9 +765,9 @@ namespace AdKartInfrastructure.Migrations
                             PasswordHash = "1234567890",
                             PhoneNumber = "7382755402",
                             ProfilePic = "Pic1",
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2994),
-                            UserRoleId = new Guid("e85ba5cd-168c-4d7b-8816-478887cdcf4d")
+                            TownId = new Guid("0ea4872a-302c-4da2-8a8a-b266f1088acf"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3976),
+                            UserRoleId = new Guid("58ee79ec-f920-4c56-a09f-5c37d3a8407c")
                         });
                 });
 
@@ -767,27 +810,27 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e85ba5cd-168c-4d7b-8816-478887cdcf4d"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2536),
+                            Id = new Guid("58ee79ec-f920-4c56-a09f-5c37d3a8407c"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3191),
                             IsActive = true,
                             Role = "Admin",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2550)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3211)
                         },
                         new
                         {
-                            Id = new Guid("eb459dee-f966-445c-b40c-817031712570"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2553),
+                            Id = new Guid("3fcf8635-7010-4abf-8363-6ea02d4ca09d"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3215),
                             IsActive = true,
                             Role = "ShopOwner",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2554)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3216)
                         },
                         new
                         {
-                            Id = new Guid("bf8e59df-4368-4a2a-9082-012adb02bea7"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2556),
+                            Id = new Guid("dfbc2f57-7acf-429e-8d49-3428926ff468"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3218),
                             IsActive = true,
                             Role = "Customer",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2557)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3219)
                         });
                 });
 
@@ -800,25 +843,29 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("34031864-9206-4dd9-bb2f-23cf15f112dd"),
+                            Id = new Guid("49f14b93-8731-4559-8ca5-bae79f0899c6"),
                             Coins = 0m,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2965),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3936),
                             IsActive = true,
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2965)
+                            TownId = new Guid("0ea4872a-302c-4da2-8a8a-b266f1088acf"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 14, 36, 863, DateTimeKind.Local).AddTicks(3937)
                         });
                 });
 
             modelBuilder.Entity("AdKartDomain.Entities.AdWatch", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.Advertisement", "Advertisement")
-                        .WithMany("AdWatches")
+                        .WithMany()
                         .HasForeignKey("AdId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
+                    b.HasOne("AdKartDomain.Entities.Advertisement", null)
                         .WithMany("AdWatches")
+                        .HasForeignKey("AdvertisementId");
+
+                    b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
+                        .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -826,6 +873,10 @@ namespace AdKartInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AdKartDomain.Entities.User", null)
+                        .WithMany("AdWatches")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Advertisement");
 
@@ -854,12 +905,12 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.Cart", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AdKartDomain.Entities.Shop", "Shop")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -868,6 +919,10 @@ namespace AdKartInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AdKartDomain.Entities.User", null)
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("CreatedByUser");
 
@@ -879,10 +934,14 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.CartItem", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.Cart", "Cart")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AdKartDomain.Entities.Cart", null)
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId1");
 
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
                         .WithMany()
@@ -954,24 +1013,20 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.Order", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AdKartDomain.Entities.Shop", "Shop")
-                        .WithMany("Orders")
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.HasOne("AdKartDomain.Entities.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByUser");
+                    b.HasOne("AdKartDomain.Entities.User", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Shop");
+                    b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -984,10 +1039,14 @@ namespace AdKartInfrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AdKartDomain.Entities.Order", "Order")
-                        .WithMany("OrderItems")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AdKartDomain.Entities.Order", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId1");
 
                     b.HasOne("AdKartDomain.Entities.Product", "Product")
                         .WithMany()
@@ -1017,10 +1076,14 @@ namespace AdKartInfrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AdKartDomain.Entities.Shop", "Shop")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AdKartDomain.Entities.Shop", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ShopId1");
 
                     b.HasOne("AdKartDomain.Entities.User", "UpdatedByUser")
                         .WithMany()
@@ -1037,10 +1100,14 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.Shop", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.Category", "Category")
-                        .WithMany("Shops")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("AdKartDomain.Entities.Category", null)
+                        .WithMany("Shops")
+                        .HasForeignKey("CategoryId1");
 
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
                         .WithMany()
@@ -1087,7 +1154,7 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.Transaction", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
-                        .WithMany("Transactions")
+                        .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1095,6 +1162,10 @@ namespace AdKartInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AdKartDomain.Entities.User", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("CreatedByUser");
 
@@ -1173,10 +1244,6 @@ namespace AdKartInfrastructure.Migrations
 
             modelBuilder.Entity("AdKartDomain.Entities.Shop", b =>
                 {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Orders");
-
                     b.Navigation("Products");
                 });
 

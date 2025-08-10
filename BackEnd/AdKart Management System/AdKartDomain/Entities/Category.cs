@@ -9,5 +9,8 @@ namespace AdKartDomain.Entities
         public string Name { get; set; }
 
         public string ImageUrl { get; set; }
+
+        // Navigation Properties
+        public ICollection<Shop> Shops { get; set; }
     }
 }

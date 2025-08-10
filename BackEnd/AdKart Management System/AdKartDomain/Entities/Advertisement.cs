@@ -27,5 +27,8 @@ namespace AdKartDomain.Entities
 
         [MaxLength(50)]
         public string AgentName { get; set; }
+
+        // Navigation Property
+        public ICollection<AdWatch> AdWatches { get; set; }
     }
 }

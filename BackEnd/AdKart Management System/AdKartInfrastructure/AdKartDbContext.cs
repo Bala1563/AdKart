@@ -35,6 +35,31 @@ namespace AdKartInfrastructure
                 .HasIndex(u => u.PhoneNumber)
                 .IsUnique();
 
+            // Navigation Properties
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.AdWatches)
+                .WithOne(a => a.CreatedByUser)
+                .HasForeignKey(a => a.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Carts)
+                .WithOne(c => c.CreatedByUser)
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Orders)
+                .WithOne(o => o.CreatedByUser)
+                .HasForeignKey(o => o.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Transactions)
+                .WithOne(t => t.CreatedByUser)
+                .HasForeignKey(t => t.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // To Handle the Self-Referencing Foreign Keys (CreatedBy, UpdatedBy)
             modelBuilder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
@@ -74,6 +99,13 @@ namespace AdKartInfrastructure
                 .HasIndex(t => t.Name)
                 .IsUnique();
 
+            // Navigation Property
+            modelBuilder.Entity<Town>()
+                .HasMany(t => t.Users)
+                .WithOne(u => u.Town)
+                .HasForeignKey(u => u.TownId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // CreatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Town>()
                 .HasOne(t => t.CreatedByUser)
@@ -93,6 +125,13 @@ namespace AdKartInfrastructure
             modelBuilder.Entity<Category>()
                 .HasIndex(c => c.Name)
                 .IsUnique();
+
+            // Navigation Property
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Shops)
+                .WithOne(c => c.Category)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // CreatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Category>()
@@ -124,18 +163,30 @@ namespace AdKartInfrastructure
                 .HasForeignKey(s => s.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Prevents deletion of a Category while it still has related Shops.
-            modelBuilder.Entity<Shop>()
-                .HasOne(s => s.Category)
-                .WithMany()
-                .HasForeignKey(s => s.CategoryId) 
-                .OnDelete(DeleteBehavior.Restrict);
-
-            //Prevents deletion of a User (Owner) while it still has related Shops.
+            // Prevents deletion of a User (Owner) while it still has related Shops.
             modelBuilder.Entity<Shop>()
                 .HasOne(s => s.Owner)
                 .WithMany()
                 .HasForeignKey(s => s.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Navigation Property
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.Products)
+                .WithOne(p => p.Shop)
+                .HasForeignKey(p => p.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.Carts)
+                .WithOne(c => c.Shop)
+                .HasForeignKey(c => c.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.Orders)
+                .WithOne(o => o.Shop)
+                .HasForeignKey(o => o.ShopId)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
@@ -154,24 +205,17 @@ namespace AdKartInfrastructure
                 .HasForeignKey(p => p.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // This deletes all products under a shop when the shop is deleted.
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Shop)
-                .WithMany()
-                .HasForeignKey(p => p.ShopId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Product>()
                 .Property(p => p.MeasuringType)
                 .HasConversion<string>();
             #endregion
 
             #region Cart Table
-            // This help in deleting all carts under a User, when a User got deleted
+            // Navigation Property
             modelBuilder.Entity<Cart>()
-                .HasOne(c => c.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(c => c.CreatedBy)
+                .HasMany(c => c.CartItems)
+                .WithOne(c => c.Cart)
+                .HasForeignKey(c => c.CartId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // UpdatedBy relationship (prevent cascade delete)
@@ -181,13 +225,7 @@ namespace AdKartInfrastructure
                 .HasForeignKey(c => c.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Deletes all carts for a shop when the shop is deleted.
-            modelBuilder.Entity<Cart>()
-                .HasOne(c => c.Shop)
-                .WithMany()
-                .HasForeignKey(c => c.ShopId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+            // Converting Enum to String for Database storage.
             modelBuilder.Entity<Cart>()
                 .Property(c => c.Status)
                 .HasConversion<string>();
@@ -208,13 +246,6 @@ namespace AdKartInfrastructure
                 .HasForeignKey(c => c.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // This help in deleting all CartItems under a Cart, when a Cart got deleted
-            modelBuilder.Entity<CartItem>()
-                .HasOne(c => c.Cart)
-                .WithMany()
-                .HasForeignKey(c => c.CartId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // All CartItems related to a Product should be deleted before the Product is deleted.
             modelBuilder.Entity<CartItem>()
                 .HasOne(c => c.Product)
@@ -224,12 +255,12 @@ namespace AdKartInfrastructure
             #endregion
 
             #region Order Table
-            // CreatedBy relationship (prevent cascade delete)
+            // Nagivation Property
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(o => o.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMany(o => o.OrderItems)
+                .WithOne(o => o.Order)
+                .HasForeignKey(o => o.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Order>()
@@ -257,13 +288,6 @@ namespace AdKartInfrastructure
                 .WithMany()
                 .HasForeignKey(o => o.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // This help in deleting all OrderItems under a Order, when a Order got deleted.
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(o => o.Order)
-                .WithMany()
-                .HasForeignKey(o => o.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             // All OrderItems related to a Product should be deleted before the Product is deleted.
             modelBuilder.Entity<OrderItem>()
@@ -306,13 +330,6 @@ namespace AdKartInfrastructure
             #endregion
 
             #region Transaction Table
-            // CreatedBy relationship (prevent cascade delete)
-            modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(t => t.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.UpdatedByUser)
@@ -341,6 +358,13 @@ namespace AdKartInfrastructure
                 .HasForeignKey(a => a.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Navigation Properties
+            modelBuilder.Entity<Advertisement>()
+                .HasMany(a => a.AdWatches)
+                .WithOne(a => a.Advertisement)
+                .HasForeignKey(a => a.AdId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<Advertisement>()
                 .HasOne(a => a.UpdatedByUser)
@@ -350,25 +374,11 @@ namespace AdKartInfrastructure
             #endregion
 
             #region AdWatch Table
-            // CreatedBy relationship (prevent cascade delete)
-            modelBuilder.Entity<AdWatch>()
-                .HasOne(a => a.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(a => a.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
             // UpdatedBy relationship (prevent cascade delete)
             modelBuilder.Entity<AdWatch>()
                 .HasOne(a => a.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(a => a.UpdatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // UpdatedBy relationship (prevent cascade delete)
-            modelBuilder.Entity<AdWatch>()
-                .HasOne(a => a.Advertisement)
-                .WithMany()
-                .HasForeignKey(a => a.AdId)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 

@@ -4,6 +4,7 @@ using AdKartInfrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdKartInfrastructure.Migrations
 {
     [DbContext(typeof(AdKartDbContext))]
-    partial class AdKartDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250810210102_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,6 +153,9 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -157,6 +163,8 @@ namespace AdKartInfrastructure.Migrations
                     b.HasIndex("ShopId");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -300,12 +308,12 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d619f161-f26a-4f82-945e-561e5a0ff65d"),
+                            Id = new Guid("80ad5a13-57cb-40af-87a5-f269b8c62683"),
                             Coins = 0m,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2921),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9671),
                             IsActive = true,
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2921)
+                            TownId = new Guid("c1575d96-9fa5-459b-9cf2-33220951d797"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9672)
                         });
                 });
 
@@ -330,9 +338,6 @@ namespace AdKartInfrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ShopId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -346,8 +351,6 @@ namespace AdKartInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ShopId");
 
                     b.HasIndex("UpdatedBy");
 
@@ -574,11 +577,11 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2559),
+                            Id = new Guid("c1575d96-9fa5-459b-9cf2-33220951d797"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9190),
                             IsActive = true,
                             Name = "Narasaraopet",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2560)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9191)
                         });
                 });
 
@@ -711,10 +714,10 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3df30ed0-77d1-45c1-92b0-260644286da5"),
+                            Id = new Guid("26d693e6-4a88-41ce-b76c-ed7b32c4d166"),
                             Address = "Barampet",
                             Coins = 0,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2994),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9747),
                             Email = "ibvramasai1563@gmail.com",
                             FirstName = "Bala Venkata Rama Sai",
                             IsActive = true,
@@ -722,9 +725,9 @@ namespace AdKartInfrastructure.Migrations
                             PasswordHash = "1234567890",
                             PhoneNumber = "7382755402",
                             ProfilePic = "Pic1",
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2994),
-                            UserRoleId = new Guid("e85ba5cd-168c-4d7b-8816-478887cdcf4d")
+                            TownId = new Guid("c1575d96-9fa5-459b-9cf2-33220951d797"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9747),
+                            UserRoleId = new Guid("fa99fef7-70ee-4b95-ba1d-3222a299eeee")
                         });
                 });
 
@@ -767,27 +770,27 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e85ba5cd-168c-4d7b-8816-478887cdcf4d"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2536),
+                            Id = new Guid("fa99fef7-70ee-4b95-ba1d-3222a299eeee"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9163),
                             IsActive = true,
                             Role = "Admin",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2550)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9180)
                         },
                         new
                         {
-                            Id = new Guid("eb459dee-f966-445c-b40c-817031712570"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2553),
+                            Id = new Guid("65efb54e-1867-46e4-8239-eb52e4cd3852"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9184),
                             IsActive = true,
                             Role = "ShopOwner",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2554)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9184)
                         },
                         new
                         {
-                            Id = new Guid("bf8e59df-4368-4a2a-9082-012adb02bea7"),
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2556),
+                            Id = new Guid("66e2fb6a-b5ac-4473-add8-e85ac1d77681"),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9186),
                             IsActive = true,
                             Role = "Customer",
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2557)
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9187)
                         });
                 });
 
@@ -800,12 +803,12 @@ namespace AdKartInfrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("34031864-9206-4dd9-bb2f-23cf15f112dd"),
+                            Id = new Guid("5c94e4ab-01a0-4e2b-846e-46d32d4d53be"),
                             Coins = 0m,
-                            CreatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2965),
+                            CreatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9707),
                             IsActive = true,
-                            TownId = new Guid("da6e1911-9c1f-4c1e-8c31-7a2308a76f08"),
-                            UpdatedOn = new DateTime(2025, 8, 11, 2, 44, 49, 636, DateTimeKind.Local).AddTicks(2965)
+                            TownId = new Guid("c1575d96-9fa5-459b-9cf2-33220951d797"),
+                            UpdatedOn = new DateTime(2025, 8, 11, 2, 31, 0, 802, DateTimeKind.Local).AddTicks(9708)
                         });
                 });
 
@@ -854,12 +857,12 @@ namespace AdKartInfrastructure.Migrations
             modelBuilder.Entity("AdKartDomain.Entities.Cart", b =>
                 {
                     b.HasOne("AdKartDomain.Entities.User", "CreatedByUser")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AdKartDomain.Entities.Shop", "Shop")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -868,6 +871,10 @@ namespace AdKartInfrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AdKartDomain.Entities.User", null)
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("CreatedByUser");
 
@@ -958,20 +965,12 @@ namespace AdKartInfrastructure.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AdKartDomain.Entities.Shop", "Shop")
-                        .WithMany("Orders")
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("AdKartDomain.Entities.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
-
-                    b.Navigation("Shop");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -1173,10 +1172,6 @@ namespace AdKartInfrastructure.Migrations
 
             modelBuilder.Entity("AdKartDomain.Entities.Shop", b =>
                 {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Orders");
-
                     b.Navigation("Products");
                 });
 
